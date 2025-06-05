@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <g transform="translate(50, 50)">
+    <!-- Temple structure -->
+    <path d="M200,50 L400,50 L350,100 L250,100 Z" fill="#000"/>
+    <rect x="150" y="100" width="300" height="20" fill="#000"/>
+    <!-- Columns -->
+    <rect x="170" y="120" width="30" height="150" fill="#000"/>
+    <rect x="230" y="120" width="30" height="150" fill="#000"/>
+    <rect x="290" y="120" width="30" height="150" fill="#000"/>
+    <rect x="350" y="120" width="30" height="150" fill="#000"/>
+    <!-- Base -->
+    <rect x="150" y="270" width="300" height="20" fill="#000"/>
+    <!-- Flame -->
+    <path d="M275,150 Q300,100 325,150 Q350,200 300,220 Q250,200 275,150" fill="#FF6B00"/>
+    <!-- Text -->
+    <path d="M100,320 C200,320 400,320 500,320" fill="none" stroke="#000" stroke-width="2"/>
+    <text x="150" y="350" font-family="Arial" font-size="24" fill="#000">THEODOMIRO SANTIAGO</text>
+    <text x="200" y="150" font-family="Arial" font-size="16" fill="#000">RES, NON VERBA</text>
+    <!-- Stars -->
+    <path d="M150,50 L160,70 L140,70 Z" fill="#000"/>
+    <path d="M450,50 L460,70 L440,70 Z" fill="#000"/>
+  </g>
+</svg> 
