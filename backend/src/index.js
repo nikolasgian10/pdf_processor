@@ -24,7 +24,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://pdf-processor-livid.vercel.app', // seu frontend no Vercel
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
