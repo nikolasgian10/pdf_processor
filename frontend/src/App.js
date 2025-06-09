@@ -192,7 +192,7 @@ const App = () => {
     <div className="app">
       <nav className="sidebar">
         <div className="logo">
-          <h1>PDF Processor</h1>
+          <img src="https://gestaodepatrimonio.prefeituradigital.com.br/storage/logo/logo-dark.png" alt="Logo" />
         </div>
         <ul className="nav-links">
           <li 
