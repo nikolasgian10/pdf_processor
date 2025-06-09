@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Unit = require('../models/Unit');
+const cors = require('cors');
+
+const app = require('express')();
+app.use(cors());
 
 // Get all units
 router.get('/', async (req, res) => {
