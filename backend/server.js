@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const connectDB = require('./src/config/database');
 const pdfRoutes = require('./src/routes/pdfRoutes');
+const unitRoutes = require('./src/routes/units');
 require('dotenv').config();
 
 const app = express();
@@ -32,7 +33,7 @@ connectDB();
 
 // Rotas
 app.use('/api/pdfs', pdfRoutes);
-app.use('/api/units', require('./src/routes/unitRoutes'));
+app.use('/api/units', unitRoutes);
 app.use('/api/occurrences', require('./src/routes/occurrenceRoutes'));
 app.use('/api/reports', require('./src/routes/reportRoutes'));
 app.use('/api/control', require('./src/routes/control'));
