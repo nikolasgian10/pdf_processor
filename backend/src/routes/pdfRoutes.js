@@ -7,7 +7,7 @@ const pdfController = require('../controllers/pdfController');
 // Configuração do Multer para upload de arquivos
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, path.join(__dirname, '../../uploads'));
+        cb(null, path.join(__dirname, '../../../uploads'));
     },
     filename: function(req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -30,7 +30,7 @@ const upload = multer({
 });
 
 // Rotas
-router.post('/upload', upload.single('pdf'), pdfController.uploadPDF);
+router.post('/process-pdf', upload.single('file'), pdfController.uploadPDF);
 router.get('/', pdfController.listPDFs);
 router.get('/:id', pdfController.getPDF);
 router.delete('/:id', pdfController.deletePDF);

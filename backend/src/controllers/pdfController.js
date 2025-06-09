@@ -4,7 +4,7 @@ const path = require('path');
 const pdfParse = require('pdf-parse');
 
 // Configuração do diretório de upload
-const uploadDir = path.join(__dirname, '../../uploads');
+const uploadDir = path.join(__dirname, '../../../uploads');
 
 // Criar diretório de upload se não existir
 const ensureUploadDir = async () => {
@@ -42,7 +42,10 @@ const pdfController = {
                     creationDate: pdfData.info?.CreationDate ? new Date(pdfData.info.CreationDate) : new Date(),
                     keywords: pdfData.info?.Keywords ? pdfData.info.Keywords.split(',') : []
                 },
-                status: 'processed'
+                status: 'processed',
+                unit: req.body.unit,
+                month: req.body.month,
+                year: req.body.year
             });
 
             await pdf.save();

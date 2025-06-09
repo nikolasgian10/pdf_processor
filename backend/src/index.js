@@ -8,6 +8,7 @@ const path = require('path');
 const unitsRouter = require('./routes/units');
 const controlRouter = require('./routes/control');
 const statsRouter = require('./routes/stats');
+const pdfController = require('./controllers/pdfController');
 
 const app = express();
 
@@ -49,16 +50,8 @@ app.use('/api/units', unitsRouter);
 app.use('/api/control', controlRouter);
 app.use('/api/stats', statsRouter);
 
-// Upload de PDF
-app.post('/api/upload', upload.single('pdf'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'Nenhum arquivo enviado' });
-  }
-  res.json({
-    message: 'Arquivo enviado com sucesso',
-    filename: req.file.filename
-  });
-});
+// Upload de PDF - AGORA APONTA PARA O CONTROLADOR CORRETO E ROTA CORRETA
+app.post('/api/process-pdf', upload.single('file'), pdfController.uploadPDF);
 
 // Tratamento de erros
 app.use((err, req, res, next) => {

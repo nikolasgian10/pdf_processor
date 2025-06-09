@@ -60,7 +60,7 @@ const PDFUpload = ({ onUpload }) => {
       formData.append('year', selectedYear.toString());
       formData.append('unit', selectedUnit);
 
-      const response = await fetch(`${API_URL}/process-pdf`, {
+      const response = await fetch(`${API_URL}/pdfs/process-pdf`, {
         method: 'POST',
         body: formData,
       });

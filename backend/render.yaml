@@ -10,4 +10,6 @@ services:
       - key: PORT
         value: 5000
       - key: MONGODB_URI
-        sync: false # Será configurado manualmente no dashboard do Render 
+        sync: false # Será configurado manualmente no dashboard do Render
+      - key: CORS_ORIGIN
+        value: https://pdf-processor.vercel.app 

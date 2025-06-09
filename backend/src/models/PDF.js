@@ -31,6 +31,18 @@ const PDFSchema = new mongoose.Schema({
         type: String,
         enum: ['processed', 'failed', 'processing'],
         default: 'processing'
+    },
+    unit: {
+        type: String,
+        required: true
+    },
+    month: {
+        type: String,
+        required: true
+    },
+    year: {
+        type: Number,
+        required: true
     }
 });
 
