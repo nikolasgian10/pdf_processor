@@ -12,16 +12,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get units by type
-router.get('/type/:type', async (req, res) => {
-  try {
-    const units = await Unit.find({ type: req.params.type });
-    res.json(units);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching units' });
-  }
-});
-
 // Get a specific unit
 router.get('/:id', async (req, res) => {
   try {
@@ -32,6 +22,67 @@ router.get('/:id', async (req, res) => {
     res.json(unit);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching unit' });
+  }
+});
+
+// Create a new unit
+router.post('/', async (req, res) => {
+  try {
+    const unit = new Unit({
+      installationNumber: req.body.installationNumber,
+      addressSAAE: req.body.addressSAAE,
+      addressEDP: req.body.addressEDP,
+      station: req.body.station,
+      meter: req.body.meter,
+      class: req.body.class,
+      mapLink: req.body.mapLink,
+      bandeira: req.body.bandeira,
+      status: req.body.status
+    });
+    const savedUnit = await unit.save();
+    res.status(201).json(savedUnit);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Update a unit
+router.put('/:id', async (req, res) => {
+  try {
+    const unit = await Unit.findByIdAndUpdate(
+      req.params.id,
+      {
+        installationNumber: req.body.installationNumber,
+        addressSAAE: req.body.addressSAAE,
+        addressEDP: req.body.addressEDP,
+        station: req.body.station,
+        meter: req.body.meter,
+        class: req.body.class,
+        mapLink: req.body.mapLink,
+        bandeira: req.body.bandeira,
+        status: req.body.status
+      },
+      { new: true }
+    );
+    if (!unit) {
+      return res.status(404).json({ error: 'Unit not found' });
+    }
+    res.json(unit);
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating unit' });
+  }
+});
+
+// Delete a unit
+router.delete('/:id', async (req, res) => {
+  try {
+    const unit = await Unit.findByIdAndDelete(req.params.id);
+    if (!unit) {
+      return res.status(404).json({ error: 'Unit not found' });
+    }
+    res.json({ message: 'Unit deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting unit' });
   }
 });
 
@@ -57,36 +108,6 @@ router.get('/:id/monthly', async (req, res) => {
     res.json(monthlyData);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching monthly data' });
-  }
-});
-
-// Update a unit
-router.put('/:id', async (req, res) => {
-  try {
-    const unit = await Unit.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!unit) {
-      return res.status(404).json({ error: 'Unit not found' });
-    }
-    res.json(unit);
-  } catch (error) {
-    res.status(500).json({ error: 'Error updating unit' });
-  }
-});
-
-// Delete a unit
-router.delete('/:id', async (req, res) => {
-  try {
-    const unit = await Unit.findByIdAndDelete(req.params.id);
-    if (!unit) {
-      return res.status(404).json({ error: 'Unit not found' });
-    }
-    res.json({ message: 'Unit deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Error deleting unit' });
   }
 });
 

@@ -11,9 +11,11 @@ import {
   FaExclamationTriangle,
   FaList,
   FaChartBar,
-  FaChartLine
+  FaChartLine,
+  FaPlus
 } from "react-icons/fa";
 import PDFUpload from './components/PDFUpload';
+import AddUnit from './components/AddUnit';
 import Calculations from './components/Calculations';
 import Control from './components/Control';
 import Occurrences from './components/Occurrences';
@@ -127,6 +129,11 @@ const App = () => {
     };
   };
 
+  const handleUnitAdded = (data) => {
+    console.log('Unit added:', data);
+    // Handle the new unit data
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'upload':
@@ -155,9 +162,11 @@ const App = () => {
                 </button>
               </div>
             </div>
-            {selectedType && <PDFUpload onUpload={handleFileUpload} />}
+            {selectedType && <PDFUpload onUpload={handleFileUpload} selectedType={selectedType} />}
           </div>
         );
+      case 'add-unit':
+        return <AddUnit onUnitAdded={handleUnitAdded} />;
       case 'calculations':
         return <Calculations />;
       case 'control':
@@ -183,14 +192,20 @@ const App = () => {
     <div className="app">
       <nav className="sidebar">
         <div className="logo">
-          <img src="https://gestaodepatrimonio.prefeituradigital.com.br/storage/logo/logo-dark.png" alt="Logo" />
+          <h1>PDF Processor</h1>
         </div>
         <ul className="nav-links">
           <li 
             className={activeTab === 'upload' ? 'active' : ''}
             onClick={() => setActiveTab('upload')}
           >
-            <FaUpload /> Processamento
+            <FaUpload /> Upload PDF
+          </li>
+          <li 
+            className={activeTab === 'add-unit' ? 'active' : ''}
+            onClick={() => setActiveTab('add-unit')}
+          >
+            <FaPlus /> Nova Unidade
           </li>
           <li 
             className={activeTab === 'calculations' ? 'active' : ''}
