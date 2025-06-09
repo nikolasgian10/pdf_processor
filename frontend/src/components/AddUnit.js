@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 
-const API_URL = 'https://pdf-processor-gxqi.onrender.com/api';
+const API_URL = 'https://pdf-processor-backend.onrender.com/api';
 
 const AddUnit = ({ onUnitAdded }) => {
   const [newUnit, setNewUnit] = useState({
@@ -42,11 +42,12 @@ const AddUnit = ({ onUnitAdded }) => {
         });
         alert('Unidade adicionada com sucesso!');
       } else {
-        throw new Error('Erro ao adicionar unidade');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao adicionar unidade');
       }
     } catch (error) {
       console.error('Erro ao adicionar unidade:', error);
-      alert('Erro ao adicionar unidade. Por favor, tente novamente.');
+      alert(error.message || 'Erro ao adicionar unidade. Por favor, tente novamente.');
     }
   };
 
