@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 
+const API_URL = 'https://pdf-processor-gxqi.onrender.com/api';
+
 const AddUnit = ({ onUnitAdded }) => {
   const [newUnit, setNewUnit] = useState({
     installationNumber: '',
@@ -17,7 +19,7 @@ const AddUnit = ({ onUnitAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/units', {
+      const response = await fetch(`${API_URL}/units`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

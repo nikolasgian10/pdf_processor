@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaUpload, FaSpinner } from 'react-icons/fa';
 
+const API_URL = 'https://pdf-processor-gxqi.onrender.com/api';
+
 const PDFUpload = ({ onUpload }) => {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -15,7 +17,7 @@ const PDFUpload = ({ onUpload }) => {
 
   const fetchExistingUnits = async () => {
     try {
-      const response = await fetch(`/api/units`);
+      const response = await fetch(`${API_URL}/units`);
       const data = await response.json();
       setExistingUnits(data);
     } catch (error) {
@@ -58,7 +60,7 @@ const PDFUpload = ({ onUpload }) => {
       formData.append('year', selectedYear.toString());
       formData.append('unit', selectedUnit);
 
-      const response = await fetch('/api/process-pdf', {
+      const response = await fetch(`${API_URL}/process-pdf`, {
         method: 'POST',
         body: formData,
       });
