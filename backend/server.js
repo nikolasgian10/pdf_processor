@@ -15,9 +15,9 @@ app.use(express.json());
 
 // Configuração do CORS
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://pdf-processor.vercel.app', 'https://pdf-processor.netlify.app'] // URLs de produção
-    : '*', // Permite todas as origens em desenvolvimento
+  origin: process.env.NODE_ENV === 'production'
+    ? (process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(s => s.trim()) : '*') // Usa a variável de ambiente CORS_ORIGIN ou permite tudo se não definida
+    : '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
