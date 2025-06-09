@@ -1,22 +1,33 @@
 const mongoose = require('mongoose');
 
 const unitSchema = new mongoose.Schema({
-  nome: {
-    type: String,
-    required: true
-  },
-  numeroInstalacao: {
+  installationNumber: {
     type: String,
     required: true,
     unique: true
   },
-  tipo: {
+  addressSAAE: {
     type: String,
-    enum: ['agua', 'esgoto', 'outras'],
     required: true
   },
-  endereco: String,
-  responsavel: String,
+  addressEDP: {
+    type: String,
+    required: true
+  },
+  station: String,
+  meter: String,
+  class: String,
+  mapLink: String,
+  status: {
+    type: String,
+    enum: ['ativo', 'inativo'],
+    default: 'ativo'
+  },
+  bandeira: {
+    type: String,
+    enum: ['verde', 'amarela', 'vermelha'],
+    default: 'verde'
+  },
   createdAt: {
     type: Date,
     default: Date.now

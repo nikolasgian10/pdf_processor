@@ -6,9 +6,7 @@ const MonthlyData = require('../models/MonthlyData');
 // Listar unidades
 router.get('/', async (req, res) => {
   try {
-    const { type } = req.query;
-    const query = type ? { tipo: type } : {};
-    const units = await Unit.find(query);
+    const units = await Unit.find().sort({ createdAt: -1 });
     res.json(units);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -28,19 +26,27 @@ router.get('/:id/monthly-data', async (req, res) => {
 
 // Criar unidade
 router.post('/', async (req, res) => {
-  const unit = new Unit({
-    nome: req.body.nome,
-    numeroInstalacao: req.body.numeroInstalacao,
-    tipo: req.body.tipo,
-    endereco: req.body.endereco,
-    responsavel: req.body.responsavel
-  });
-
   try {
+    const unit = new Unit({
+      installationNumber: req.body.installationNumber,
+      addressSAAE: req.body.addressSAAE,
+      addressEDP: req.body.addressEDP,
+      station: req.body.station,
+      meter: req.body.meter,
+      class: req.body.class,
+      mapLink: req.body.mapLink,
+      status: req.body.status,
+      bandeira: req.body.bandeira
+    });
+
     const newUnit = await unit.save();
     res.status(201).json(newUnit);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Erro ao criar unidade:', error);
+    res.status(400).json({ 
+      message: 'Erro ao criar unidade',
+      error: error.message 
+    });
   }
 });
 
@@ -52,11 +58,11 @@ router.patch('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Unidade não encontrada' });
     }
 
-    if (req.body.nome) unit.nome = req.body.nome;
-    if (req.body.numeroInstalacao) unit.numeroInstalacao = req.body.numeroInstalacao;
-    if (req.body.tipo) unit.tipo = req.body.tipo;
-    if (req.body.endereco) unit.endereco = req.body.endereco;
-    if (req.body.responsavel) unit.responsavel = req.body.responsavel;
+    Object.keys(req.body).forEach(key => {
+      if (unit[key] !== undefined) {
+        unit[key] = req.body[key];
+      }
+    });
 
     const updatedUnit = await unit.save();
     res.json(updatedUnit);
@@ -74,8 +80,8 @@ router.delete('/:id', async (req, res) => {
     }
 
     await MonthlyData.deleteMany({ unit: req.params.id });
-    await unit.remove();
-    res.json({ message: 'Unidade removida' });
+    await unit.deleteOne();
+    res.json({ message: 'Unidade removida com sucesso' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
