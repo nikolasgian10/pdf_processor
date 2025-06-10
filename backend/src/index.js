@@ -26,11 +26,11 @@ const upload = multer({ storage: storage });
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: 'https://pdf-processor-livid.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-console.log('CORS_ORIGIN_CONFIGURED:', process.env.FRONTEND_URL);
+// console.log('CORS_ORIGIN_CONFIGURED:', process.env.FRONTEND_URL); // Removido para depuração
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
