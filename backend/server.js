@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-// const cors = require('cors'); // Temporariamente removido
+const cors = require('cors');
 // const path = require('path'); // Temporariamente removido
 // const fs = require('fs'); // Temporariamente removido
 const connectDB = require('./src/config/database');
@@ -10,31 +11,13 @@ const connectDB = require('./src/config/database');
 // const reportRoutes = require('./src/routes/reportRoutes'); // Temporariamente removido
 // const controlRoutes = require('./src/routes/control'); // Temporariamente removido
 // const statsRoutes = require('./src/routes/stats'); // Temporariamente removido
-require('dotenv').config();
 
 const app = express();
 
-// Log para depuração do CORS_ORIGIN (mantido para visualização nos logs, mas não afetará o CORS agora)
-console.log('CORS_ORIGIN do ambiente:', process.env.CORS_ORIGIN);
-
-// Removendo todos os middlewares e configurações de CORS temporariamente
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//   next();
-// });
-
-// app.use((req, res, next) => {
-//   if (req.method === 'OPTIONS') {
-//     res.header('Access-Control-Allow-Origin', '*');
-//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     return res.sendStatus(200);
-//   }
-//   next();
-// });
-
+// Middleware
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000'
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -60,10 +43,7 @@ connectDB();
 
 // Rota básica (mantida)
 app.get('/', (req, res) => {
-    res.json({ 
-        message: 'API de Processamento de PDF funcionando (simplificada)! ',
-        environment: process.env.NODE_ENV || 'development'
-    });
+    res.json({ message: 'API de Processamento de PDF funcionando!' });
 });
 
 // Removendo tratamento de erros temporariamente
@@ -75,6 +55,7 @@ app.get('/', (req, res) => {
 //     });
 // });
 
+// Porta
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
