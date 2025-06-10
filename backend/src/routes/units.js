@@ -87,4 +87,5 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;
+// Pequena alteração para forçar novo deploy e reavaliação das rotas 
