@@ -30,6 +30,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+console.log('CORS_ORIGIN_CONFIGURED:', process.env.FRONTEND_URL || 'http://localhost:3000');
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
