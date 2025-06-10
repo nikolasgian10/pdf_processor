@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaUpload, FaSpinner } from 'react-icons/fa';
 
-const API_URL = 'https://pdf-processor-gxqi.onrender.com/api';
+const API_URL = 'https://pdf-processor-backend.onrender.com/api';
 
 const PDFUpload = ({ onUpload }) => {
   const [file, setFile] = useState(null);

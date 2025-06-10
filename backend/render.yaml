@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: pdf-processor-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://nikolasgian10:saOCa0sAgasvnac1@projetojacarei.kd3fxay.mongodb.net/pdf_processor?retryWrites=true&w=majority 

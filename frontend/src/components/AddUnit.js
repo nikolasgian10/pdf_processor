@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 
-const API_URL = 'https://pdf-processor-backend-novo.onrender.com/api';
+const API_URL = 'https://pdf-processor-backend.onrender.com/api';
 
 const AddUnit = ({ onUnitAdded }) => {
   const [newUnit, setNewUnit] = useState({
@@ -14,6 +14,7 @@ const AddUnit = ({ onUnitAdded }) => {
     mapLink: '',
     status: 'ativo',
     bandeira: 'verde',
+    type: 'agua',
   });
 
   const handleSubmit = async (e) => {
@@ -39,6 +40,7 @@ const AddUnit = ({ onUnitAdded }) => {
           mapLink: '',
           status: 'ativo',
           bandeira: 'verde',
+          type: 'agua',
         });
         alert('Unidade adicionada com sucesso!');
       } else {
@@ -55,6 +57,18 @@ const AddUnit = ({ onUnitAdded }) => {
     <div className="add-unit-container">
       <h2>Nova Unidade</h2>
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Tipo:</label>
+          <select
+            value={newUnit.type}
+            onChange={(e) => setNewUnit({ ...newUnit, type: e.target.value })}
+            required
+          >
+            <option value="agua">Água</option>
+            <option value="esgoto">Esgoto</option>
+            <option value="outras">Outras Áreas</option>
+          </select>
+        </div>
         <div className="form-group">
           <label>Instalação (Número):</label>
           <input
