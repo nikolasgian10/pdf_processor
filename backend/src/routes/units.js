@@ -27,6 +27,7 @@ router.get('/:id/monthly-data', async (req, res) => {
 
 // Criar unidade
 router.post('/', async (req, res) => {
+  console.log('Dados recebidos para criar unidade:', req.body);
   try {
     // Validar o tipo antes de criar a unidade
     const { type, ...rest } = req.body;
