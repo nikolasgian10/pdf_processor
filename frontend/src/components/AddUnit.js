@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSave, FaWater, FaToilet, FaBuilding } from 'react-icons/fa';
 
-const API_URL = 'https://pdf-processor-backend-novo.onrender.com/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://pdf-processor-backend-novo.onrender.com/api';
 
 const AddUnit = ({ onUnitAdded }) => {
   const [selectedType, setSelectedType] = useState(null);
