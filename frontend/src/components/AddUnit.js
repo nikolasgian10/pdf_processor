@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 
-const API_URL = 'https://pdf-processor-gxqi.onrender.com/api';
+const API_URL = 'https://pdf-processor-backend-novo.onrender.com/api';
 
 const AddUnit = ({ onUnitAdded }) => {
   const [newUnit, setNewUnit] = useState({
