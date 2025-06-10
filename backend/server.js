@@ -5,8 +5,8 @@ const cors = require('cors');
 // const path = require('path'); // Temporariamente removido
 // const fs = require('fs'); // Temporariamente removido
 const connectDB = require('./src/config/database');
+const unitRoutes = require('./src/routes/units'); // Reativado
 // const pdfRoutes = require('./src/routes/pdfRoutes'); // Temporariamente removido
-// const unitRoutes = require('./src/routes/units'); // Temporariamente removido
 // const occurrenceRoutes = require('./src/routes/occurrenceRoutes'); // Temporariamente removido
 // const reportRoutes = require('./src/routes/reportRoutes'); // Temporariamente removido
 // const controlRoutes = require('./src/routes/control'); // Temporariamente removido
@@ -30,9 +30,10 @@ app.use(express.urlencoded({ extended: true }));
 // Conexão com o banco de dados
 connectDB();
 
+// Rotas
+app.use('/api/units', unitRoutes); // Reativado
 // Removendo todas as rotas complexas temporariamente
 // app.use('/api/pdfs', pdfRoutes);
-// app.use('/api/units', unitRoutes);
 // app.use('/api/occurrences', require('./src/routes/occurrenceRoutes'));
 // app.use('/api/reports', require('./src/routes/reportRoutes'));
 // app.use('/api/control', require('./src/routes/control'));

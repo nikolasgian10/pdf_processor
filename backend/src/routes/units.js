@@ -6,10 +6,11 @@ const MonthlyData = require('../models/MonthlyData');
 // Listar unidades
 router.get('/', async (req, res) => {
   try {
-    const units = await Unit.find().sort({ createdAt: -1 });
+    const units = await Unit.find();
     res.json(units);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -27,26 +28,12 @@ router.get('/:id/monthly-data', async (req, res) => {
 // Criar unidade
 router.post('/', async (req, res) => {
   try {
-    const unit = new Unit({
-      installationNumber: req.body.installationNumber,
-      addressSAAE: req.body.addressSAAE,
-      addressEDP: req.body.addressEDP,
-      station: req.body.station,
-      meter: req.body.meter,
-      class: req.body.class,
-      mapLink: req.body.mapLink,
-      status: req.body.status,
-      bandeira: req.body.bandeira
-    });
-
-    const newUnit = await unit.save();
-    res.status(201).json(newUnit);
-  } catch (error) {
-    console.error('Erro ao criar unidade:', error);
-    res.status(400).json({ 
-      message: 'Erro ao criar unidade',
-      error: error.message 
-    });
+    const newUnit = new Unit(req.body);
+    const savedUnit = await newUnit.save();
+    res.status(201).json(savedUnit);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: err.message });
   }
 });
 

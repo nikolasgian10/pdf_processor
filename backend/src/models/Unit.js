@@ -1,33 +1,13 @@
 const mongoose = require('mongoose');
 
 const unitSchema = new mongoose.Schema({
-  installationNumber: {
+  name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    trim: true
   },
-  addressSAAE: {
-    type: String,
-    required: true
-  },
-  addressEDP: {
-    type: String,
-    required: true
-  },
-  station: String,
-  meter: String,
-  class: String,
-  mapLink: String,
-  status: {
-    type: String,
-    enum: ['ativo', 'inativo'],
-    default: 'ativo'
-  },
-  bandeira: {
-    type: String,
-    enum: ['verde', 'amarela', 'vermelha'],
-    default: 'verde'
-  },
+  // Você pode adicionar outros campos aqui conforme a necessidade da sua unidade
   createdAt: {
     type: Date,
     default: Date.now
