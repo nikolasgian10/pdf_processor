@@ -13,7 +13,17 @@ const app = express();
 // Log para depuração do CORS_ORIGIN
 console.log('CORS_ORIGIN do ambiente:', process.env.CORS_ORIGIN);
 
+// --- NOVO: Middleware CORS direto para forçar cabeçalhos ---
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Permitir qualquer origem
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+// --- FIM DO NOVO MIDDLEWARE ---
+
 // Middleware para lidar com OPTIONS requests (pré-checagem de CORS) - Colocado no início
+// (Mantido por segurança, mas o middleware direto deve lidar com a maioria)
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Origin', '*'); // Permitir qualquer origem para OPTIONS
@@ -28,12 +38,12 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configuração do CORS (redundante, mas mantido para teste)
-app.use(cors({
-  origin: '*', // Mantido para teste com o middleware CORS do pacote npm
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// Configuração do CORS (este agora é redundante e pode ser removido depois se funcionar)
+// app.use(cors({
+//   origin: '*',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
 
 // Criar diretório de uploads se não existir
 const uploadDir = path.join(__dirname, 'uploads');
