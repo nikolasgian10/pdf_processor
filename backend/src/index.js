@@ -26,7 +26,7 @@ const upload = multer({ storage: storage });
 
 // Middleware
 app.use(cors({
-  origin: 'https://pdf-processor-livid.vercel.app', // seu frontend no Vercel
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Use variável de ambiente ou fallback para dev local
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
