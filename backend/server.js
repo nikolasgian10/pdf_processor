@@ -10,6 +10,9 @@ require('dotenv').config();
 
 const app = express();
 
+// Log para depuração do CORS_ORIGIN
+console.log('CORS_ORIGIN do ambiente:', process.env.CORS_ORIGIN);
+
 // Middleware
 app.use(express.json());
 
