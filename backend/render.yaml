@@ -12,6 +12,6 @@ services:
       - key: MONGODB_URI
         sync: false # Será configurado manualmente no dashboard do Render
       - key: CORS_ORIGIN
-        value: https://pdf-processor.vercel.app
+        value: https://pdf-processor-livid.vercel.app # Certifique-se que este valor está correto no Render dashboard
       - key: JWT_SECRET
         generateValue: true 
