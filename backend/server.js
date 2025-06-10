@@ -16,11 +16,9 @@ console.log('CORS_ORIGIN do ambiente:', process.env.CORS_ORIGIN);
 // Middleware
 app.use(express.json());
 
-// Configuração do CORS
+// Configuração do CORS (TESTE: permitindo todas as origens temporariamente)
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? (process.env.CORS_ORIGIN || '*') // Usa a variável de ambiente CORS_ORIGIN diretamente ou permite tudo se não definida
-    : '*',
+  origin: '*', // TESTE: Permitir todas as origens temporariamente
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
