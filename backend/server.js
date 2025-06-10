@@ -13,12 +13,24 @@ const app = express();
 // Log para depuração do CORS_ORIGIN
 console.log('CORS_ORIGIN do ambiente:', process.env.CORS_ORIGIN);
 
-// Middleware
-app.use(express.json());
+// Middleware para lidar com OPTIONS requests (pré-checagem de CORS) - Colocado no início
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', '*'); // Permitir qualquer origem para OPTIONS
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.sendStatus(200); // Responder com status 200 para pré-checagem
+  }
+  next();
+});
 
-// Configuração do CORS (TESTE: permitindo todas as origens temporariamente)
+// Middleware principal
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Configuração do CORS (redundante, mas mantido para teste)
 app.use(cors({
-  origin: '*', // TESTE: Permitir todas as origens temporariamente
+  origin: '*', // Mantido para teste com o middleware CORS do pacote npm
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
