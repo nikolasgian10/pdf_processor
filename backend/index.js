@@ -2,12 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const unitsRouter = require('./routes/units');
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://nikolasgian10:saOCa0sAgasvnac1@projetojacarei.kd3fxay.mongodb.net/pdf_processor?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://nikolasgian10:saOCa0sAgasvnac1@projetojacarei.kd3fxay.mongodb.net/pdf_processor?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -18,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://nikolasgian10:saOCa0s
 });
 
 app.use(cors({
-  origin: ['https://pdf-processor-livid.vercel.app', 'http://localhost:3000'],
+  origin: 'https://pdf-processor-livid.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
