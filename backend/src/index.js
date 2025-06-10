@@ -35,8 +35,8 @@ app.use('/uploads', express.static('uploads'));
 
 // Conexão com o MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/pdf-processor', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true
 });
 
 const db = mongoose.connection;

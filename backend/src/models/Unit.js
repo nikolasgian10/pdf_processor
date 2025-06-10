@@ -46,6 +46,11 @@ const unitSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  type: {
+    type: String,
+    enum: ['agua', 'esgoto', 'outras'],
+    required: true
   }
 });
 

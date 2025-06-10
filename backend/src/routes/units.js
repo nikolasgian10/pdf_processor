@@ -28,7 +28,13 @@ router.get('/:id/monthly-data', async (req, res) => {
 // Criar unidade
 router.post('/', async (req, res) => {
   try {
-    const newUnit = new Unit(req.body);
+    // Validar o tipo antes de criar a unidade
+    const { type, ...rest } = req.body;
+    if (!['agua', 'esgoto', 'outras'].includes(type)) {
+      return res.status(400).json({ message: 'Tipo de unidade inválido.' });
+    }
+
+    const newUnit = new Unit({ ...rest, type });
     const savedUnit = await newUnit.save();
     res.status(201).json(savedUnit);
   } catch (err) {
@@ -40,20 +46,25 @@ router.post('/', async (req, res) => {
 // Atualizar unidade
 router.patch('/:id', async (req, res) => {
   try {
-    const unit = await Unit.findById(req.params.id);
-    if (!unit) {
+    const { type, ...updateData } = req.body;
+
+    if (type && !['agua', 'esgoto', 'outras'].includes(type)) {
+      return res.status(400).json({ message: 'Tipo de unidade inválido.' });
+    }
+
+    const updatedUnit = await Unit.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body }, // Use req.body diretamente para incluir o tipo se fornecido
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUnit) {
       return res.status(404).json({ message: 'Unidade não encontrada' });
     }
 
-    Object.keys(req.body).forEach(key => {
-      if (unit[key] !== undefined) {
-        unit[key] = req.body[key];
-      }
-    });
-
-    const updatedUnit = await unit.save();
     res.json(updatedUnit);
   } catch (error) {
+    console.error(error);
     res.status(400).json({ message: error.message });
   }
 });
