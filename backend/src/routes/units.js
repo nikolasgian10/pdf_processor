@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Unit = require('../models/Unit');
+const Unit = require('../src/models/Unit');
 const MonthlyData = require('../models/MonthlyData');
 
 // Listar unidades
@@ -29,6 +29,11 @@ router.get('/:id/monthly-data', async (req, res) => {
 router.post('/', async (req, res) => {
   console.log('Dados recebidos para criar unidade:', req.body);
   try {
+    // Certifica-se de que o campo 'name' não está presente no req.body, se ele for enviado por engano.
+    if (req.body.name !== undefined) {
+      delete req.body.name;
+    }
+    
     // Validar o tipo antes de criar a unidade
     const { type, ...rest } = req.body;
     if (!['agua', 'esgoto', 'outras'].includes(type)) {
@@ -47,6 +52,11 @@ router.post('/', async (req, res) => {
 // Atualizar unidade
 router.patch('/:id', async (req, res) => {
   try {
+    // Certifica-se de que o campo 'name' não está presente no req.body, se ele for enviado por engano.
+    if (req.body.name !== undefined) {
+      delete req.body.name;
+    }
+
     const { type, ...updateData } = req.body;
 
     if (type && !['agua', 'esgoto', 'outras'].includes(type)) {
