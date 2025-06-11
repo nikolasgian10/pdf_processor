@@ -6,7 +6,12 @@ const MonthlyData = require('../models/MonthlyData');
 // Listar unidades
 router.get('/', async (req, res) => {
   try {
-    const units = await Unit.find().lean();
+    const { type } = req.query;
+    let query = {};
+    if (type) {
+      query.type = type;
+    }
+    const units = await Unit.find(query).lean();
     res.json(units);
   } catch (err) {
     console.error(err);
