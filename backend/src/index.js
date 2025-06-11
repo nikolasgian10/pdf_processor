@@ -52,9 +52,14 @@ app.use('/api/control', controlRouter);
 app.use('/api/stats', statsRouter);
 
 // Upload de PDF - AGORA APONTA PARA O CONTROLADOR CORRETO E ROTA CORRETA
-app.post('/api/process-pdf', upload.single('file'), pdfController.uploadPDF);
+app.post('/api/pdfs/process-pdf', pdfController.uploadPDF);
 
-// Tratamento de erros
+// Nova rota para verificar se o backend está rodando
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Backend is running!' });
+});
+
+// Tratamento de erros (AGORA NO FINAL)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Erro interno do servidor' });
@@ -62,6 +67,7 @@ app.use((err, req, res, next) => {
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando na porta ${PORT}`);
+  console.log('PORT environment variable:', process.env.PORT);
 }); 
