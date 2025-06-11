@@ -47,8 +47,11 @@ const PDFUpload = ({ onUpload, selectedType }) => {
       return;
     }
 
-    if (file.type !== "application/pdf") {
-      alert("Por favor, selecione um arquivo PDF");
+    // Nova validação pela extensão do arquivo
+    const fileName = file.name;
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+    if (fileExtension !== 'pdf') {
+      alert("Por favor, selecione um arquivo PDF (verifique a extensão .pdf)");
       return;
     }
 
