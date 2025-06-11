@@ -20,6 +20,7 @@ const AddUnit = ({ onUnitAdded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Dados a serem enviados:', {...newUnit, type: selectedType});
     try {
       const response = await fetch(`${API_URL}/units`, {
         method: 'POST',
