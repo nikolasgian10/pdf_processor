@@ -10,14 +10,16 @@ const PDFUpload = ({ onUpload }) => {
   const [existingUnits, setExistingUnits] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedUnitType, setSelectedUnitType] = useState('');
 
   useEffect(() => {
     fetchExistingUnits();
-  }, []);
+  }, [selectedUnitType]);
 
   const fetchExistingUnits = async () => {
     try {
-      const response = await fetch(`${API_URL}/units`);
+      const url = selectedUnitType ? `${API_URL}/units?type=${selectedUnitType}` : `${API_URL}/units`;
+      const response = await fetch(url);
       const data = await response.json();
       setExistingUnits(data);
     } catch (error) {
@@ -85,6 +87,21 @@ const PDFUpload = ({ onUpload }) => {
   return (
     <div className="upload-container">
       <div className="unit-selection">
+        <div className="form-group">
+          <label>Filtrar por Tipo:</label>
+          <select
+            value={selectedUnitType}
+            onChange={(e) => {
+              setSelectedUnitType(e.target.value);
+              setSelectedUnit('');
+            }}
+          >
+            <option value="">Todos</option>
+            <option value="agua">Água</option>
+            <option value="esgoto">Esgoto</option>
+            <option value="outras">Outras Áreas</option>
+          </select>
+        </div>
         <div className="existing-unit">
           <label>Selecione a Unidade:</label>
           <select
