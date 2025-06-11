@@ -124,11 +124,11 @@ const App = () => {
       case 'control':
         return <Control />;
       case 'water':
-        return <UnitView type="agua" />;
+        return <UnitView type={selectedType === 'agua' ? 'agua' : null} />;
       case 'sewage':
-        return <UnitView type="esgoto" />;
+        return <UnitView type={selectedType === 'esgoto' ? 'esgoto' : null} />;
       case 'other':
-        return <UnitView type="outras" />;
+        return <UnitView type={selectedType === 'outras' ? 'outras' : null} />;
       case 'occurrences':
         return <Occurrences />;
       case 'totals':
@@ -173,19 +173,19 @@ const App = () => {
           </li>
           <li 
             className={activeTab === 'water' ? 'active' : ''}
-            onClick={() => setActiveTab('water')}
+            onClick={() => {setActiveTab('water'); setSelectedType('agua');}}
           >
             <FaWater /> Água
           </li>
           <li 
             className={activeTab === 'sewage' ? 'active' : ''}
-            onClick={() => setActiveTab('sewage')}
+            onClick={() => {setActiveTab('sewage'); setSelectedType('esgoto');}}
           >
             <FaToilet /> Esgoto
           </li>
           <li 
             className={activeTab === 'other' ? 'active' : ''}
-            onClick={() => setActiveTab('other')}
+            onClick={() => {setActiveTab('other'); setSelectedType('outras');}}
           >
             <FaBuilding /> Outras Áreas
           </li>
