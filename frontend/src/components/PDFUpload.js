@@ -3,7 +3,7 @@ import { FaUpload, FaSpinner } from 'react-icons/fa';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://pdf-processor-backend.onrender.com/api';
 
-const PDFUpload = ({ onUpload }) => {
+const PDFUpload = ({ onUpload, selectedType }) => {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState('');
@@ -13,11 +13,12 @@ const PDFUpload = ({ onUpload }) => {
 
   useEffect(() => {
     fetchExistingUnits();
-  }, []);
+  }, [selectedType]);
 
   const fetchExistingUnits = async () => {
     try {
-      const response = await fetch(`${API_URL}/units`);
+      const url = selectedType ? `${API_URL}/units?type=${selectedType}` : `${API_URL}/units`;
+      const response = await fetch(url);
       const data = await response.json();
       setExistingUnits(data);
     } catch (error) {
