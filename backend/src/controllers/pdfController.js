@@ -4,7 +4,7 @@ const path = require('path');
 const pdfParse = require('pdf-parse');
 
 // Configuração do diretório de upload
-const uploadDir = path.join(__dirname, '../../../uploads');
+const uploadDir = path.join(__dirname, '../../uploads');
 
 // Criar diretório de upload se não existir
 const ensureUploadDir = async () => {
