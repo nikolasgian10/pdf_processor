@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Unit = require('../src/models/Unit');
+const Unit = require('../models/Unit');
 const MonthlyData = require('../models/MonthlyData');
 
 // Listar unidades
