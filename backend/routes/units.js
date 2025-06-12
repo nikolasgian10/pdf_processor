@@ -17,7 +17,14 @@ router.post('/', async (req, res) => {
 // GET /api/units
 router.get('/', async (req, res) => {
   try {
-    const units = await Unit.find();
+    const { type } = req.query; // Pega o parâmetro 'type' da URL
+    let query = {}; // Objeto de consulta inicial
+
+    if (type) {
+      query.type = type; // Adiciona o filtro de tipo se o parâmetro existir
+    }
+
+    const units = await Unit.find(query); // Encontra as unidades com base na consulta
     res.json(units);
   } catch (err) {
     console.error(err);
