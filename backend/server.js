@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-// const path = require('path'); // Temporariamente removido
-// const fs = require('fs'); // Temporariamente removido
+const path = require('path');
+const fs = require('fs');
 const connectDB = require('./src/config/database');
 const unitRoutes = require('./src/routes/units'); // Reativado
 const pdfRoutes = require('./src/routes/pdfRoutes'); // Reativado
@@ -21,11 +21,13 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Removendo criação de diretório de uploads temporariamente
-// const uploadDir = path.join(__dirname, 'uploads');
-// if (!fs.existsSync(uploadDir)) {
-//   fs.mkdirSync(uploadDir, { recursive: true });
-// }
+// Configuração do diretório de upload
+const uploadDir = path.join(__dirname, 'uploads');
+
+// Criar diretório de upload se não existir
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Conexão com o banco de dados
 connectDB();
@@ -39,7 +41,7 @@ app.use('/api/control', controlRoutes); // Reativado
 app.use('/api/stats', statsRoutes); // Reativado
 
 // Removendo servir arquivos estáticos temporariamente
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rota básica (mantida)
 app.get('/', (req, res) => {
