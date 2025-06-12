@@ -47,6 +47,8 @@ const PDFUpload = ({ onUpload, selectedType }) => {
     console.log("Variável 'selectedMonth':", selectedMonth);
     console.log("Variável 'selectedYear':", selectedYear);
 
+    debugger;
+
     if (!file || !selectedUnit) {
       alert("Por favor, selecione a unidade e o arquivo PDF");
       return;
