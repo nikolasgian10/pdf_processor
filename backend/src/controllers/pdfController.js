@@ -35,13 +35,11 @@ const pdfController = {
             console.log('- Nome do arquivo:', req.file.filename);
             console.log('- Tamanho:', req.file.size);
             console.log('- Tipo MIME:', req.file.mimetype);
+            console.log('- Tipo de armazenamento Multer: MemoryStorage (arquivo em req.file.buffer)');
 
-            await ensureUploadDir();
-            console.log('\n3. Diretório de upload verificado');
-
-            // Ler o arquivo PDF
-            console.log('\n4. Lendo arquivo PDF...');
-            const dataBuffer = await fs.readFile(req.file.path);
+            // Ler o arquivo PDF do buffer em memória
+            console.log('\n4. Lendo arquivo PDF do buffer em memória...');
+            const dataBuffer = req.file.buffer;
             const pdfData = await pdfParse(dataBuffer);
             console.log('- Páginas:', pdfData.numpages);
             console.log('- Tamanho do texto:', pdfData.text.length);
@@ -68,9 +66,9 @@ const pdfController = {
             await pdf.save();
             console.log('6. Registro salvo com sucesso');
 
-            // Remover arquivo temporário após processamento
-            await fs.unlink(req.file.path);
-            console.log('7. Arquivo temporário removido');
+            // Remover arquivo temporário após processamento (não é mais necessário com memoryStorage)
+            // await fs.unlink(req.file.path);
+            // console.log('7. Arquivo temporário removido');
 
             console.log('\n8. Enviando resposta de sucesso');
             res.status(201).json(pdf);

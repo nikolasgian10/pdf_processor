@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-    storage: storage,
+    storage: multer.memoryStorage(),
     fileFilter: (req, file, cb) => {
         if (file.mimetype === 'application/pdf') {
             cb(null, true);
@@ -43,7 +43,7 @@ const upload = multer({
     }
 });
 
-// Criar diretório de upload se não existir
+// Criar diretório de upload se não existir (não é mais estritamente necessário para Multer, mas pode ser útil se outros processos precisarem)
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
