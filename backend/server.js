@@ -48,10 +48,14 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Middleware (Multer deve vir antes de express.json() e express.urlencoded() para rotas de upload)
+// Middleware (Multer para upload deve vir antes de express.json() e express.urlencoded())
 app.use(cors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000'
 }));
+
+// Rota de upload de PDF com Multer aplicado diretamente aqui (antes dos parsers gerais)
+app.post('/api/pdfs/process-pdf', upload.single('file'), pdfController.uploadPDF);
+
 // As rotas que não envolvem upload de arquivos podem usar express.json() e express.urlencoded() normalmente
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -59,20 +63,14 @@ app.use(express.urlencoded({ extended: true }));
 // Conexão com o banco de dados
 connectDB();
 
-// Rotas
-// Rota de upload de PDF com Multer aplicado diretamente aqui
-app.post('/api/pdfs/process-pdf', upload.single('file'), pdfController.uploadPDF);
+// Outras rotas
+app.use('/api/pdfs', pdfRoutes); // Outras rotas de PDF (não de upload)
+app.use('/api/units', unitRoutes);
+app.use('/api/occurrences', occurrenceRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/control', controlRoutes);
+app.use('/api/stats', statsRoutes);
 
-// Outras rotas de PDF (não de upload)
-app.use('/api/pdfs', pdfRoutes);
-
-app.use('/api/units', unitRoutes); // Reativado
-app.use('/api/occurrences', occurrenceRoutes); // Reativado
-app.use('/api/reports', reportRoutes); // Reativado
-app.use('/api/control', controlRoutes); // Reativado
-app.use('/api/stats', statsRoutes); // Reativado
-
-// Removendo servir arquivos estáticos temporariamente
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rota básica (mantida)
