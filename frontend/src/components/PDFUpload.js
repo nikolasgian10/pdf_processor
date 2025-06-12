@@ -3,6 +3,9 @@ import { FaUpload, FaSpinner } from 'react-icons/fa';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://pdf-processor-backend.onrender.com/api';
 
+// Verificação da URL da API
+console.log('URL da API configurada:', API_URL);
+
 const PDFUpload = ({ onUpload, selectedType }) => {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -41,13 +44,17 @@ const PDFUpload = ({ onUpload, selectedType }) => {
   );
 
   const handleFileUpload = async () => {
-    console.log("--- Início de handleFileUpload ---");
-    console.log("Variável 'file':", file);
-    console.log("Variável 'selectedUnit':", selectedUnit);
-    console.log("Variável 'selectedMonth':", selectedMonth);
-    console.log("Variável 'selectedYear':", selectedYear);
+    console.log("=== Início de handleFileUpload ===");
+    console.log("1. Verificação do arquivo:");
+    console.log("- Arquivo selecionado:", file);
+    console.log("- Nome do arquivo:", file?.name);
+    console.log("- Tipo do arquivo:", file?.type);
+    console.log("- Tamanho do arquivo:", file?.size);
 
-    debugger;
+    console.log("\n2. Verificação dos campos:");
+    console.log("- Unidade selecionada:", selectedUnit);
+    console.log("- Mês selecionado:", selectedMonth);
+    console.log("- Ano selecionado:", selectedYear);
 
     if (!file || !selectedUnit) {
       alert("Por favor, selecione a unidade e o arquivo PDF");
@@ -64,6 +71,10 @@ const PDFUpload = ({ onUpload, selectedType }) => {
     const fileExtension = fileName.split('.').pop().toLowerCase();
     const fileType = file.type;
     
+    console.log("\n3. Validação do arquivo:");
+    console.log("- Extensão do arquivo:", fileExtension);
+    console.log("- Tipo MIME:", fileType);
+    
     if (fileExtension !== 'pdf' || fileType !== 'application/pdf') {
       alert("Por favor, selecione um arquivo PDF válido");
       return;
@@ -72,18 +83,31 @@ const PDFUpload = ({ onUpload, selectedType }) => {
     setIsProcessing(true);
     
     try {
+      console.log("\n4. Preparando FormData:");
       const formData = new FormData();
       formData.append('file', file);
       formData.append('month', selectedMonth);
       formData.append('year', selectedYear.toString());
       formData.append('unit', selectedUnit);
 
+      console.log("\n5. Conteúdo do FormData:");
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
+      console.log("\n6. Enviando requisição para:", `${API_URL}/pdfs/process-pdf`);
+      
       const response = await fetch(`${API_URL}/pdfs/process-pdf`, {
         method: 'POST',
         body: formData,
       });
 
+      console.log("\n7. Resposta do servidor:");
+      console.log("- Status:", response.status);
+      console.log("- Status Text:", response.statusText);
+      
       const data = await response.json();
+      console.log("- Dados:", data);
       
       if (response.ok) {
         onUpload(data);
@@ -151,7 +175,11 @@ const PDFUpload = ({ onUpload, selectedType }) => {
         <input 
           type="file" 
           accept=".pdf" 
-          onChange={(e) => setFile(e.target.files[0])} 
+          onChange={(e) => {
+            const selectedFile = e.target.files[0];
+            console.log('Arquivo selecionado:', selectedFile);
+            setFile(selectedFile);
+          }} 
         />
         <button 
           onClick={handleFileUpload} 
