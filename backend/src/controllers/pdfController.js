@@ -19,21 +19,34 @@ const ensureUploadDir = async () => {
 const pdfController = {
     // Upload e processamento de PDF
     async uploadPDF(req, res) {
-        // Temporariamente, apenas retorne uma resposta de sucesso
-        // return res.status(200).json({ message: 'Rota de upload de PDF acessada com sucesso (Multer desativado temporariamente).' });
+        console.log('=== Início do processamento de PDF ===');
+        console.log('1. Verificação do request:');
+        console.log('- Body:', req.body);
+        console.log('- File:', req.file);
 
-        // O código original abaixo será reativado depois que testarmos a rota
         try {
             if (!req.file) {
+                console.log('Erro: Nenhum arquivo foi enviado');
                 return res.status(400).json({ error: 'Nenhum arquivo foi enviado' });
             }
 
+            console.log('\n2. Verificação do arquivo:');
+            console.log('- Nome original:', req.file.originalname);
+            console.log('- Nome do arquivo:', req.file.filename);
+            console.log('- Tamanho:', req.file.size);
+            console.log('- Tipo MIME:', req.file.mimetype);
+
             await ensureUploadDir();
+            console.log('\n3. Diretório de upload verificado');
 
             // Ler o arquivo PDF
+            console.log('\n4. Lendo arquivo PDF...');
             const dataBuffer = await fs.readFile(req.file.path);
             const pdfData = await pdfParse(dataBuffer);
+            console.log('- Páginas:', pdfData.numpages);
+            console.log('- Tamanho do texto:', pdfData.text.length);
 
+            console.log('\n5. Criando registro no banco de dados...');
             // Criar registro no banco de dados
             const pdf = new PDF({
                 fileName: req.file.filename,
@@ -53,13 +66,16 @@ const pdfController = {
             });
 
             await pdf.save();
+            console.log('6. Registro salvo com sucesso');
 
             // Remover arquivo temporário após processamento
             await fs.unlink(req.file.path);
+            console.log('7. Arquivo temporário removido');
 
+            console.log('\n8. Enviando resposta de sucesso');
             res.status(201).json(pdf);
         } catch (error) {
-            console.error('Erro no processamento do PDF:', error);
+            console.error('\nErro no processamento do PDF:', error);
             res.status(500).json({ error: 'Erro no processamento do arquivo' });
         }
     },
