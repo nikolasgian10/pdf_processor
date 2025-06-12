@@ -20,10 +20,9 @@ const pdfController = {
     // Upload e processamento de PDF
     async uploadPDF(req, res) {
         // Temporariamente, apenas retorne uma resposta de sucesso
-        return res.status(200).json({ message: 'Rota de upload de PDF acessada com sucesso (Multer desativado temporariamente).' });
+        // return res.status(200).json({ message: 'Rota de upload de PDF acessada com sucesso (Multer desativado temporariamente).' });
 
         // O código original abaixo será reativado depois que testarmos a rota
-        /*
         try {
             if (!req.file) {
                 return res.status(400).json({ error: 'Nenhum arquivo foi enviado' });
@@ -63,7 +62,6 @@ const pdfController = {
             console.error('Erro no processamento do PDF:', error);
             res.status(500).json({ error: 'Erro no processamento do arquivo' });
         }
-        */
     },
 
     // Listar todos os PDFs processados

@@ -6,11 +6,11 @@ const cors = require('cors');
 // const fs = require('fs'); // Temporariamente removido
 const connectDB = require('./src/config/database');
 const unitRoutes = require('./src/routes/units'); // Reativado
-// const pdfRoutes = require('./src/routes/pdfRoutes'); // Temporariamente removido
-// const occurrenceRoutes = require('./src/routes/occurrenceRoutes'); // Temporariamente removido
-// const reportRoutes = require('./src/routes/reportRoutes'); // Temporariamente removido
-// const controlRoutes = require('./src/routes/control'); // Temporariamente removido
-// const statsRoutes = require('./src/routes/stats'); // Temporariamente removido
+const pdfRoutes = require('./src/routes/pdfRoutes'); // Reativado
+const occurrenceRoutes = require('./src/routes/occurrenceRoutes'); // Reativado
+const reportRoutes = require('./src/routes/reportRoutes'); // Reativado
+const controlRoutes = require('./src/routes/control'); // Reativado
+const statsRoutes = require('./src/routes/stats'); // Reativado
 
 const app = express();
 
@@ -32,12 +32,11 @@ connectDB();
 
 // Rotas
 app.use('/api/units', unitRoutes); // Reativado
-// Removendo todas as rotas complexas temporariamente
-// app.use('/api/pdfs', pdfRoutes);
-// app.use('/api/occurrences', require('./src/routes/occurrenceRoutes'));
-// app.use('/api/reports', require('./src/routes/reportRoutes'));
-// app.use('/api/control', require('./src/routes/control'));
-// app.use('/api/stats', require('./src/routes/stats'));
+app.use('/api/pdfs', pdfRoutes); // Reativado
+app.use('/api/occurrences', occurrenceRoutes); // Reativado
+app.use('/api/reports', reportRoutes); // Reativado
+app.use('/api/control', controlRoutes); // Reativado
+app.use('/api/stats', statsRoutes); // Reativado
 
 // Removendo servir arquivos estáticos temporariamente
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
