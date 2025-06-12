@@ -17,12 +17,16 @@ const PDFUpload = ({ onUpload, selectedType }) => {
 
   const fetchExistingUnits = async () => {
     try {
-      const url = selectedType ? `${API_URL}/units?type=${selectedType}` : `${API_URL}/units`;
+      const url = selectedType ? `${API_URL}/units?type=${encodeURIComponent(selectedType)}` : `${API_URL}/units`;
       const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Erro ao buscar unidades');
+      }
       const data = await response.json();
       setExistingUnits(data);
     } catch (error) {
       console.error('Error fetching units:', error);
+      setExistingUnits([]);
     }
   };
 
@@ -37,6 +41,12 @@ const PDFUpload = ({ onUpload, selectedType }) => {
   );
 
   const handleFileUpload = async () => {
+    console.log("--- Início de handleFileUpload ---");
+    console.log("Variável 'file':", file);
+    console.log("Variável 'selectedUnit':", selectedUnit);
+    console.log("Variável 'selectedMonth':", selectedMonth);
+    console.log("Variável 'selectedYear':", selectedYear);
+
     if (!file || !selectedUnit) {
       alert("Por favor, selecione a unidade e o arquivo PDF");
       return;
@@ -47,11 +57,13 @@ const PDFUpload = ({ onUpload, selectedType }) => {
       return;
     }
 
-    // Nova validação pela extensão do arquivo
+    // Validação mais robusta do arquivo PDF
     const fileName = file.name;
     const fileExtension = fileName.split('.').pop().toLowerCase();
-    if (fileExtension !== 'pdf') {
-      alert("Por favor, selecione um arquivo PDF (verifique a extensão .pdf)");
+    const fileType = file.type;
+    
+    if (fileExtension !== 'pdf' || fileType !== 'application/pdf') {
+      alert("Por favor, selecione um arquivo PDF válido");
       return;
     }
 
