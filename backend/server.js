@@ -16,18 +16,8 @@ const pdfController = require('./src/controllers/pdfController');
 
 const app = express();
 
-// Configuração do Multer para upload de arquivos (movida aqui)
-const uploadDir = path.join(__dirname, 'uploads');
-
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function(req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
+// Configuração do Multer para upload de arquivos
+const uploadDir = path.join(__dirname, 'uploads'); // Manter apenas para referência, se necessário
 
 const upload = multer({
     storage: multer.memoryStorage(),
@@ -42,11 +32,6 @@ const upload = multer({
         fileSize: 10 * 1024 * 1024 // Limite de 10MB
     }
 });
-
-// Criar diretório de upload se não existir (não é mais estritamente necessário para Multer, mas pode ser útil se outros processos precisarem)
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
 
 // Middleware (Multer para upload deve vir antes de express.json() e express.urlencoded())
 app.use(cors({
@@ -64,14 +49,12 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // Outras rotas
-app.use('/api/pdfs', pdfRoutes); // Outras rotas de PDF (não de upload)
+app.use('/api/pdfs', pdfRoutes);
 app.use('/api/units', unitRoutes);
 app.use('/api/occurrences', occurrenceRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/control', controlRoutes);
 app.use('/api/stats', statsRoutes);
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rota básica (mantida)
 app.get('/', (req, res) => {
