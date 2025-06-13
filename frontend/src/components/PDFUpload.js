@@ -296,6 +296,6 @@ const PDFUpload = ({ onUpload, selectedType }) => {
       `}</style>
     </div>
   );
-};
+}; // Fim do componente PDFUpload - Garantindo a sincronização
 
 export default PDFUpload; 
